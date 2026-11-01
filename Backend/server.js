@@ -91,7 +91,7 @@ app.post('/chat', async (req, res) => {
 
     // Get recent conversation history
     const recentHistory = Array.isArray(history)
-      ? history.slice(-12)
+      ? history.slice(-6)
       : [];
 
     // Convert messages into Gemini format
@@ -113,6 +113,7 @@ app.post('/chat', async (req, res) => {
     });
 
     // Request Gemini response
+    const startTime = Date.now();
     const result = await ai.models.generateContent({
 
       model: MODEL,
@@ -122,11 +123,15 @@ app.post('/chat', async (req, res) => {
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         temperature: 0.7,
-        maxOutputTokens: 1024
+        maxOutputTokens: 512
       }
 
     });
 
+    console.log(
+        `Waktu respons Gemini: ${(Date.now() - startTime) / 1000} detik`
+    );
+    
     const reply = result.text;
 
     if (!reply) {
