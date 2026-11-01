@@ -6,14 +6,8 @@ const Chatbot = {
     'apa kabar': `Baik aja kawannnkuhhhh, basa basi kali bahhhhh`,
     'siapa kamu': `Aku ini Asisten pribadi nya Rafi hehehehheehhe`,
     'terima kasih': `Yoiiii Sama-sama kawan! 😁`,
-    'aku misbah': `halooo princessnya rafiiii gimana kabarnyaaa 😁, ang ang ang ❤️❤️❤️`,
     'kabar aku baik kamu gimana kabarnya  ?': `Kalo rafi baik aku pun pasti baik jugaa 😊😊😊`,
-    'apa yang kamu tahu tentang Rafi ?': `rafi itu orangnya baik, rajin, dan ganteng bangetttt, heheheheh`,
-    'apakah rafi sayang sama aku ?': `iyaaaa dongggg, rafi sayang banget sama kamu princessnya rafiiii ❤️❤️❤️`,
-    'tanggal berapa jadian aku misbah sama rafi ?': `tanggal 21 februari tahun 2024 kannnn 😁`,
-    'apa yang rafi suka ?': `rafi suka banget sama kamu, princessnya rafiiii 😁❤️❤️❤️`,
-    'apa yang kamu tau tentang aku misbah ?': `kata rafi, kamu itu orangnya baik, cantik, dan manis bangetttt, heheheheh 😁❤️❤️❤️`,
-    'coba ngomong bahasa sape atau ntb': `rafi meci nggomi 😆 sama paretteeee urraaaa temaannnnnnn 😆😁`,
+    
 
     'flip a coin': function () {
       const randomNumber = Math.random();
