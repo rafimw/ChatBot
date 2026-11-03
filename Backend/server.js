@@ -9,6 +9,10 @@ const app = express();
 
 app.use(express.json({ limit: '1mb' }));
 
+
+
+
+// Konfigurasi CORS
 // Konfigurasi CORS
 const allowedOrigins = (
   process.env.FRONTEND_ORIGIN || ''
@@ -18,8 +22,24 @@ const allowedOrigins = (
   .filter(Boolean);
 
 app.use(cors({
-  origin: true
+  origin: (origin, callback) => {
+    // Izinkan request tanpa Origin untuk kebutuhan lokal/non-browser
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Origin tidak diizinkan oleh CORS'));
+  }
 }));
+
+
+
+
+
 
 // Konfigurasi Ollama
 const OLLAMA_URL =
