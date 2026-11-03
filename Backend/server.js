@@ -95,7 +95,15 @@ app.post('/chat', async (req, res) => {
     const messages = [
       {
         role: 'system',
-        content: SYSTEM_INSTRUCTION
+        content: `
+        ${SYSTEM_INSTRUCTION}
+
+        INFORMASI WAKTU SAAT INI:
+        ${getCurrentDateTime()}
+
+        Gunakan waktu ini untuk menjawab pertanyaan
+        mengenai hari, tanggal, bulan, dan jam.
+        `  
       },
 
       ...recentHistory.map(item => ({
