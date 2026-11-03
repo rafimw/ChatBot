@@ -108,7 +108,7 @@
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
 
     <!-- <script src="https://unpkg.com/supersimpledev/chatbot.js"></script> -->
-    <script src="ChatBot.js"></script>
+    <!-- <script src="ChatBot.js"></script> -->
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
@@ -119,30 +119,76 @@
           setInputText(event.target.value);
         }
 
-        function sendMessage() {
-          const newChatMessages = [
-            ...chatMessages,
-            {
-              message: inputText,
-              sender: 'user',
-              id: crypto.randomUUID()
-            }
-          ];
+        
+        async function sendMessage() {
+          const userMessage = inputText.trim();
 
-          setChatMessages(newChatMessages);
+          // Jangan kirim pesan kosong
+          if (!userMessage) return;
 
-          const response = Chatbot.getResponse(inputText);
-          setChatMessages([
-            ...newChatMessages,
-            {
-              message: response,
-              sender: 'robot',
-              id: crypto.randomUUID()
-            }
-          ]);
+          // Simpan pesan pengguna
+          const newMessage = {
+            message: userMessage,
+            sender: 'user',
+            id: crypto.randomUUID()
+          };
 
+          // Tampilkan pesan pengguna di layar
+          setChatMessages(prev => [...prev, newMessage]);
+
+          // Kosongkan input
           setInputText('');
+
+          try {
+            // Hubungkan React ke backend Ollama
+            const response = await fetch(
+              'http://localhost:3000/chat',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  message: userMessage,
+                  history: chatMessages
+                })
+              }
+            );
+
+            const data = await response.json();
+
+            // Periksa apakah backend berhasil
+            if (!response.ok) {
+              throw new Error(
+                data.detail || data.error || 'Gagal menghubungi chatbot.'
+              );
+            }
+
+            // Tampilkan jawaban Llama
+            setChatMessages(prev => [
+              ...prev,
+              {
+                message: data.response,
+                sender: 'robot',
+                id: crypto.randomUUID()
+              }
+            ]);
+
+          } catch (error) {
+            console.error('Chatbot Error:', error);
+
+            // Tampilkan pesan jika terjadi kesalahan
+            setChatMessages(prev => [
+              ...prev,
+              {
+                message: 'Maaf, chatbot sedang mengalami gangguan: ' + error.message,
+                sender: 'robot',
+                id: crypto.randomUUID()
+              }
+            ]);
+          }
         }
+
 
         return (
           <div className="chat-input-container">
