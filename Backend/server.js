@@ -18,15 +18,7 @@ const allowedOrigins = (
   .filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(
-      new Error('Origin tidak diizinkan oleh CORS')
-    );
-  }
+  origin: true
 }));
 
 // Konfigurasi Ollama
