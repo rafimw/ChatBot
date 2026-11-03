@@ -28,6 +28,21 @@ const OLLAMA_URL =
 const MODEL =
   process.env.OLLAMA_MODEL || 'llama3.2:3b';
 
+function getCurrentDateTime() {
+  const now = new Date();
+
+  return now.toLocaleString('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
 // Instruksi chatbot
 const SYSTEM_INSTRUCTION = `
 Kamu adalah asisten pribadi Rafi.
